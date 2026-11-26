@@ -1,7 +1,7 @@
 {
   "id": "T000",
   "title": "구현 계획과 Claude 인계",
-  "status": "review",
+  "status": "done",
   "owner": "codex",
   "branch": "docs/T000-implementation-plan",
   "dependsOn": [],
