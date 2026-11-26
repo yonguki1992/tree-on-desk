@@ -1,0 +1,17 @@
+name: Harness
+on:
+  pull_request:
+  push:
+    branches: [main, develop]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+      - run: node scripts/check-task-records.mjs
+      - run: node --test scripts/branch-guard.test.mjs scripts/check-task-records.test.mjs
