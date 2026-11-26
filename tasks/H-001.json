@@ -16,7 +16,8 @@
     "TODO에서 작업 카드와 인수인계에 접근할 수 있다."
   ],
   "evidence": [
-    "카드와 양식의 JSON 구조, 문서 상대 링크, Claude import 경로 검증."
+    "카드와 양식의 JSON 구조, 문서 상대 링크, Claude import 경로 검증.",
+    "트래커 develop의 CLAUDE.md와 대조해 PR 구독·리뷰 대응, 재개 시 규칙 재확인, 작업 상태 판정 절차를 보완했다."
   ],
-  "handoff": "docs/handoffs/2026-11-27-H-001-codex.md"
+  "handoff": "docs/handoffs/2026-11-27-H-001-codex-02.md"
 }
