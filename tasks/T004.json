@@ -14,7 +14,7 @@
     "src/main/index.ts",
     "src/preload/",
     "src/renderer/src/pages/WidgetPage.tsx",
-    "트레이 에셋",
+    "T003-B 트레이 아이콘 경로 연결",
     "tasks/T004.json 및 해당 작업 인계 기록"
   ],
   "acceptance": [

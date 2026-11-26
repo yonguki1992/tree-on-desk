@@ -1,0 +1,24 @@
+{
+  "id": "T003-B",
+  "title": "테마별 에셋 제작과 검수",
+  "status": "todo",
+  "owner": "claude",
+  "branch": "",
+  "dependsOn": [
+    "T003-A"
+  ],
+  "scope": [
+    "src/renderer/src/assets/pixel/",
+    "src/renderer/src/assets/vector/",
+    "트레이 아이콘 리소스",
+    "docs/design/",
+    "해당 작업 카드 및 인계 기록"
+  ],
+  "acceptance": [
+    "채택된 시안과 목록에 맞춰 투명 트리·전구·각 장식을 개별 픽셀 PNG와 벡터 SVG로 납품하고 트레이 아이콘 파일도 제공한다.",
+    "전체 ID의 양쪽 파일 존재·디코딩·투명 배경·기준점 일치를 확인하고 누락·중복을 정리한다.",
+    "같은 장식 배치를 sm/md/lg 크기의 두 테마에 합성한 검수 이미지를 남긴다. 잘림과 위치 어긋남을 확인하고 경로 목록을 T003에 인계한다."
+  ],
+  "evidence": [],
+  "handoff": "T003-A 목록과 시안 피드백부터 확인한다."
+}

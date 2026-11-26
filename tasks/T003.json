@@ -1,15 +1,15 @@
 {
   "id": "T003",
-  "title": "공용 트리 캔버스와 테마 에셋",
+  "title": "공용 트리 캔버스와 에셋 연결",
   "status": "todo",
   "owner": "claude",
   "branch": "",
   "dependsOn": [
-    "T002"
+    "T002",
+    "T003-B"
   ],
   "scope": [
     "src/shared/ornaments.ts",
-    "src/renderer/src/assets/",
     "src/renderer/src/components/",
     "src/renderer/src/pages/WidgetPage.tsx",
     "tasks/T003.json 및 해당 작업 인계 기록"
