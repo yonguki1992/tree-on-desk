@@ -1,0 +1,24 @@
+{
+  "id": "T005",
+  "title": "오꾸 편집과 적용",
+  "status": "todo",
+  "owner": "claude",
+  "branch": "",
+  "dependsOn": [
+    "T004"
+  ],
+  "scope": [
+    "src/renderer/src/pages/EditorPage.tsx",
+    "src/renderer/src/App.tsx",
+    "src/renderer/src/components/",
+    "src/main/windows.ts",
+    "편집용 IPC",
+    "tasks/T005.json 및 해당 작업 인계 기록"
+  ],
+  "acceptance": [
+    "독립 편집 창에서 WidgetPage와 동일한 TreeCanvas로 현재 배치를 미리 본다. 팔레트에서 같은 ID를 두 번 놓아도 각 instanceId로 독립 이동한다.",
+    "우클릭 삭제·트리 밖 드래그 삭제·전체 비우기를 확인한다. 편집 중에는 위젯이 유지되고 적용 시 0~1 좌표 배치가 즉시 반영되어 재실행 후에도 복원된다."
+  ],
+  "evidence": [],
+  "handoff": "편집 초안과 Main에 저장된 배치를 분리하고 적용 경로를 먼저 연결한다."
+}

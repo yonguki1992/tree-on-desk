@@ -1,0 +1,27 @@
+{
+  "id": "T002",
+  "title": "위젯 상태 저장과 창 간 동기화",
+  "status": "todo",
+  "owner": "claude",
+  "branch": "",
+  "dependsOn": [
+    "T001"
+  ],
+  "scope": [
+    "src/shared/types.ts",
+    "src/main/store.ts",
+    "src/main/ipc.ts",
+    "src/main/index.ts",
+    "src/preload/",
+    "package.json",
+    "lockfile",
+    "tasks/T002.json 및 해당 작업 인계 기록"
+  ],
+  "acceptance": [
+    "기획서 §4.4의 WidgetState·TreePreset·PlacedOrnament 계약을 구현한다. 미저장 상태는 기본값으로 시작한다.",
+    "Main이 electron-store 읽기·쓰기를 소유한다. Renderer는 제한된 IPC로 상태를 읽고 변경하며 열린 창은 확정 상태를 수신한다.",
+    "설정·위치·배치·개인 프리셋·가이드 플래그를 변경한 뒤 재시작해 복원한다. 연속 변경 시 다른 필드가 유실되지 않는지 확인한다."
+  ],
+  "evidence": [],
+  "handoff": "기획서 §4.4의 타입과 저장 기본값부터 맞춘다."
+}

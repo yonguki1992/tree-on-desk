@@ -1,0 +1,25 @@
+{
+  "id": "T007",
+  "title": "최초 실행 온보딩",
+  "status": "todo",
+  "owner": "claude",
+  "branch": "",
+  "dependsOn": [
+    "T004"
+  ],
+  "scope": [
+    "src/main/windows.ts",
+    "src/main/index.ts",
+    "src/renderer/src/App.tsx",
+    "src/renderer/src/pages/OnboardingPage.tsx",
+    "가이드 스타일",
+    "tasks/T007.json 및 해당 작업 인계 기록"
+  ],
+  "acceptance": [
+    "최초 실행 시 주 모니터 workArea를 덮는 투명·무테·항상 위 창에 rgba(0,0,0,0.6) 배경과 중앙 카드를 표시한다. 서로 다른 배율의 모니터에서 범위를 확인한다.",
+    "이동·잠금 → 우클릭·오꾸·조명·테마 → 프리셋 공유의 세 장을 스와이프·좌우 키로 탐색하고 점 3개로 현재 위치를 표시한다.",
+    "시작하기·상단 건너뛰기·ESC 각각 종료 후 hasSeenOnboarding이 저장된다. 재실행 때 자동 표시되지 않고 양쪽 컨텍스트 메뉴에서 다시 열 수 있다."
+  ],
+  "evidence": [],
+  "handoff": "T004의 #/onboarding 진입점을 연결한다. 공유 경로가 겹치면 앞 카드의 반영을 확인한다."
+}

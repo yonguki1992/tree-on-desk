@@ -1,0 +1,24 @@
+{
+  "id": "T001",
+  "title": "Electron 앱 골격",
+  "status": "todo",
+  "owner": "claude",
+  "branch": "",
+  "dependsOn": [],
+  "scope": [
+    "package.json",
+    "lockfile",
+    "electron-vite 및 TypeScript 설정",
+    "src/main/",
+    "src/preload/",
+    "src/renderer/",
+    "docs/PROJECT.md",
+    "tasks/T001.json 및 해당 작업 인계 기록"
+  ],
+  "acceptance": [
+    "깨끗한 체크아웃에서 의존성 설치 후 개발 모드로 투명·무테·작업표시줄 숨김 TreeWindow를 연다.",
+    "React와 TypeScript로 동일 renderer 번들을 빌드하고 preload contextBridge를 연결한다. 개발 실행·타입 검사·빌드 명령을 docs/PROJECT.md에 기록한다."
+  ],
+  "evidence": [],
+  "handoff": "프로젝트 지침을 읽고 electron-vite 진입점부터 만든다."
+}
