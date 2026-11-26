@@ -1,17 +1,30 @@
 name: Harness
+
 on:
   pull_request:
   push:
     branches: [main, develop]
+
 permissions:
   contents: read
+
+concurrency:
+  group: harness-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   verify:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
         with:
           node-version: '22'
-      - run: node scripts/check-task-records.mjs
-      - run: node --test scripts/branch-guard.test.mjs scripts/check-task-records.test.mjs
+      - name: Check task status source
+        run: node scripts/check-task-records.mjs
+      - name: Test task record guard
+        run: node --test scripts/check-task-records.test.mjs
+      # H-019: Claude Code hook의 브랜치 규칙 검사(의존성 설치 불필요)
+      - name: Test branch guard hook
+        run: node --test scripts/branch-guard.test.mjs

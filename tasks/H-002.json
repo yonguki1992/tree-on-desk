@@ -1,0 +1,25 @@
+{
+  "id": "H-002",
+  "title": "공통 하네스 0.1.0 도입",
+  "status": "review",
+  "owner": "codex",
+  "branch": "feat/H-002-standard-harness",
+  "dependsOn": [],
+  "scope": [
+    ".harness-revision",
+    "공통 core 파일과 프로젝트 starter 문서",
+    "tasks/H-002.json",
+    "docs/handoffs/"
+  ],
+  "acceptance": [
+    "원본 status 검사 통과",
+    "프로젝트에서 작업 기록 검사와 브랜치 가드 테스트 통과",
+    "기존 H-001 카드와 인수인계 보존"
+  ],
+  "evidence": [
+    "공통 파일 status 일치 및 H-001 카드·인수인계 보존 확인",
+    "작업 기록 검사, Node 테스트 22개, 설정 기반 Bash hook 3건 통과",
+    "원본 smoke.py 설치·충돌·업데이트·프로젝트 기록 보존 검사 통과"
+  ],
+  "handoff": "base=develop cea658c. docs/handoffs/2026-11-27-H-002-codex.md"
+}

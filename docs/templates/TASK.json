@@ -6,7 +6,7 @@
   "branch": "",
   "dependsOn": [],
   "scope": [
-    "변경할 경로"
+    "수정할 경로"
   ],
   "acceptance": [
     "관찰 가능한 완료 조건"
