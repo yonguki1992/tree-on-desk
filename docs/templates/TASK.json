@@ -1,0 +1,16 @@
+{
+  "id": "TASK-ID",
+  "title": "작업 제목",
+  "status": "todo",
+  "owner": "",
+  "branch": "",
+  "dependsOn": [],
+  "scope": [
+    "변경할 경로"
+  ],
+  "acceptance": [
+    "관찰 가능한 완료 조건"
+  ],
+  "evidence": [],
+  "handoff": ""
+}

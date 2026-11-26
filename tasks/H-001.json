@@ -1,0 +1,22 @@
+{
+  "id": "H-001",
+  "title": "협업 하네스 도입",
+  "status": "review",
+  "owner": "codex",
+  "branch": "main",
+  "dependsOn": [],
+  "scope": [
+    "AGENTS.md",
+    "CLAUDE.md",
+    "docs/",
+    "tasks/H-001.json"
+  ],
+  "acceptance": [
+    "두 에이전트가 같은 협업 규칙과 카드 양식을 읽을 수 있다.",
+    "TODO에서 작업 카드와 인수인계에 접근할 수 있다."
+  ],
+  "evidence": [
+    "카드와 양식의 JSON 구조, 문서 상대 링크, Claude import 경로 검증."
+  ],
+  "handoff": "docs/handoffs/2026-11-27-H-001-codex.md"
+}
