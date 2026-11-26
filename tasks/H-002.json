@@ -1,7 +1,7 @@
 {
   "id": "H-002",
   "title": "공통 하네스 0.1.0 도입",
-  "status": "review",
+  "status": "done",
   "owner": "codex",
   "branch": "feat/H-002-standard-harness",
   "dependsOn": [],
