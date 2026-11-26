@@ -1,4 +1,4 @@
-// Claude Code hook. 클라우드 세션이 배정하는 claude/* 세션 브랜치 대신
+// H-019: Claude Code hook. 클라우드 세션이 배정하는 claude/* 세션 브랜치 대신
 // 저장소 브랜치 규칙(docs/workflow/COLLABORATION.md)을 따르도록 강제한다.
 //   session-start : origin/main·develop을 받고 규칙 안내를 세션 컨텍스트에 넣는다(stdout).
 //   pre-tool-use  : Bash 명령의 브랜치 생성·push를 검사해 위반이면 exit 2로 거부한다(stderr가 Claude에 전달됨).
@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 
 export const ALLOWED_BRANCH = /^(?:(?:feat|fix|docs)\/(?:H-\d{3}|T\d{3})(?:-[A-Z])?(?:-[a-z0-9][a-z0-9.-]*)?|hotfix\/HF\d{3}(?:-[a-z0-9][a-z0-9.-]*)?)$/;
 const PROTECTED_BRANCH = /^(?:main|develop|claude\/.+)$/;
-const RULE = '일반 작업 브랜치는 최신 origin/develop에서 feat|fix|docs/<작업ID>-<설명> 형식으로 만든다(예: feat/T001-widget). '
+const RULE = '일반 작업 브랜치는 최신 origin/develop에서 feat|fix|docs/<작업ID>-<설명> 형식으로 만든다(예: feat/T007-N-partner-prompt). '
   + '핫픽스는 사용자 지시가 있을 때 최신 origin/main에서 hotfix/HF<번호>-<설명> 형식으로 만든다. '
   + '같은 hotfix 브랜치로 main·develop 대상 PR을 연다. develop 충돌 시에만 최신 origin/develop에서 같은 HF ID의 -develop 통합 브랜치를 만들어 hotfix를 merge한다. '
   + 'main·develop·claude/* 세션 브랜치에는 push하지 않는다. 근거: CLAUDE.md, docs/workflow/COLLABORATION.md';
@@ -199,7 +199,7 @@ function branchAt(baseDir) {
 }
 
 export function sessionStartMessage(branch, developSha, mainSha = '') {
-  const lines = ['[branch-guard] Tree on Desk 작업 브랜치와 PR 대상을 확인한다.'];
+  const lines = ['[branch-guard] 저장소 브랜치 규칙이 클라우드 세션이 배정한 브랜치 지시보다 우선한다(사용자 결정, H-019).'];
   if (!ALLOWED_BRANCH.test(branch)) {
     lines.push(`현재 브랜치 '${branch || '알 수 없음'}'은 작업 브랜치가 아니다. 여기서 커밋·push하지 않는다.`);
   }

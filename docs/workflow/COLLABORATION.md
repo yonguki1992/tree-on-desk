@@ -1,27 +1,61 @@
-# 브랜치와 배포 결함 처리
+# 협업 운영 절차
 
-## 일반 작업
+## 역할과 변경 소유권
 
-- 기본 브랜치 main은 배포 기준, develop은 개발 통합 기준이다. 작업 전 원격을 fetch하고 최신 origin/develop에서 feat/<ID>-<설명>, fix/<ID>-<설명>, docs/<ID>-<설명> 중 하나로 분기한다. ID는 제품 작업 T001, 협업 도구 H-001처럼 쓰며 하위 작업에는 -A 등 대문자 접미사를 쓸 수 있다.
-- 작업 브랜치에서 develop 대상으로 PR을 연다. 릴리스 시 사용자가 정한 범위로 develop → main PR을 준비한다. 두 기준 브랜치에 직접 커밋·push하지 않는다. 이번 H-001 초기 도입은 사용자가 지정한 예외다.
-- 동시에 작업하면 카드별 브랜치와 worktree를 사용하고 공유 파일 변경 순서를 조정한다. 스스로 구현한 사람이 검토하면 자체 검증으로 표시한다. PR 수락·거절·닫기·병합과 자동 병합 설정은 사용자 권한이다.
-- PR의 base와 head, 실제 diff와 CI를 확인한다. [리뷰 양식](../templates/REVIEW.md)을 참고하고 [리뷰 인덱스](../reviews/INDEX.md)에 PR·검토 자료를 연결한다.
+개발자 또는 Claude Code가 구현하고 Codex가 검토·보완·작업 정리를 담당한다. Codex가 직접 구현하면 다른 협업자의 리뷰를 요청하거나 자체 검증임을 명시한다. 독립 검토를 했다고 허위 기재하지 않는다.
 
-## 핫픽스
+기획 흐름: Gemini와 용욱님이 기획안을 탐색하고(Gemini는 챗봇으로만 참여해 저장소를 모르므로 기획 메모를 붙여 맥락을 준다, 전달은 용욱님이 복사해서 한다), 용욱님이 채택한 안만 채택한 안·선택 이유·열린 질문 형식으로 Codex에 넘긴다([기획 메모](PLANNING-BRIEF.md)). 원하는 동작이 이미 분명하면 탐색 없이 바로 작업 카드로 간다. Codex는 작업 카드·스펙을 만들고 Claude Code가 올린 PR을 독립 리뷰한다.
 
-1. 사용자가 이미 배포한 버전의 결함을 핫픽스로 지정하면 HF001처럼 별도 번호의 [작업 카드](TASKS.md)를 만든다. 최신 origin/main에서 hotfix/HF001-<설명>으로 분기하고 배포 버전, 사유, 기준 main SHA를 기록한다.
-2. 같은 배포 조건에서 결함을 재현하고 수정 후 결과를 evidence에 기록한다. 패치 버전을 올리고 저장소에서 사용하는 버전 파일·릴리스 문서를 함께 갱신한다. lockfile은 패키지 도구로 갱신한다.
-3. 같은 hotfix 브랜치에서 main과 develop 각각에 PR을 연다. 두 PR 본문과 카드 handoff에 상호 링크, 양쪽 병합 필요, 원본 수정 SHA를 기록한다. 대상별 diff와 검증 결과를 확인하고 develop에서 준비 중인 버전을 낮추지 않는다.
-4. develop에서 충돌할 때만 최신 origin/develop에서 hotfix/HF001-<설명>-develop 통합 브랜치를 만들어 원본 hotfix를 merge한다. 충돌을 해결한 develop 대상 대체 PR을 기존 PR·main PR에 연결한다. 원본에는 develop을 역병합하지 않는다. 원본에 수정이 추가되면 통합 브랜치에도 반영해 재검증한다. PR 종료와 원격 브랜치 삭제는 사용자가 한다.
-5. 카드 branch는 원본 hotfix 브랜치를 유지한다. 양쪽 반영 전에는 원본 브랜치를 보존한다. 두 대상의 검증·병합과 사용자 완료 판단을 확인한 후 done으로 기록한다. 병합 뒤 카드 완료 기록은 최신 origin/develop에서 같은 HF ID의 기록 브랜치로 develop에 PR을 연다.
+Codex를 쓸 수 없을 때(사용량 소진 등): 용욱님이 이미 결정한 내용이면 Claude Code가 작업 카드·스펙을 쓰고 구현까지 진행할 수 있다. 이때 PR에는 직접 수행한 검증과 독립 리뷰 여부를 구분해 적고, 독립 리뷰가 없으면 없다고 쓴다. 리뷰를 기다릴지 병합할지는 용욱님이 정한다.
 
-## 가드와 검증
+동시 작업은 작업별 브랜치와 별도 worktree를 사용한다. 브랜치 예: `feat/H-004-db`, `fix/H-008-import`. 같은 작업 디렉터리를 두 에이전트가 동시에 수정하지 않는다. 작업 카드의 소유 경로가 겹치면 먼저 순서를 조정한다. 별도 worktree여도 같은 파일의 논리 충돌은 생긴다.
 
-Claude Code는 Node.js와 Git으로 [hook 설정](../../.claude/settings.json)의 SessionStart와 Bash PreToolUse를 실행한다. 세션 시작 시 main·develop을 fetch하고, Bash에서 브랜치 생성·push 명령을 검사한다. main·develop·claude/* 또는 작업 이름 규칙에 어긋나는 push는 차단한다. 실제 분기 기준 SHA·사용자 핫픽스 지정·PR base는 카드와 PR 검토에서 확인한다. 로컬 hook 적용 범위는 Claude Code이며 GitHub 서버 보호 규칙은 별도다.
+`package.json`, lockfile, 빌드 설정, shared 계약, migration 번호, AGENTS.md, MODULES.md, TODO.md는 공유 파일이다. 작업 카드에서 변경 담당을 지정하고 동시에 수정하지 않는다. Codex가 통합 정리를 담당하되 해당 작업에서 다른 담당을 명시할 수 있다. lockfile을 손으로 편집하지 않는다.
 
-검증 명령은 저장소 루트에서 실행한다.
 
-```sh
-node scripts/check-task-records.mjs
-node --test scripts/branch-guard.test.mjs scripts/check-task-records.test.mjs
-```
+## 브랜치 정책 — 2026-10-30 사용자 결정
+
+- 아래 핫픽스 예외를 제외한 기능·수정·문서·정책·하네스 작업은 모두 `develop`을 개발 통합 기준으로 사용한다.
+- `main`은 사용자 판단으로 검증된 변경을 반영하는 기준 브랜치다. GitHub 기본 브랜치 설정은 main으로 유지하되, 기본값에 기대지 말고 PR의 base를 명시한다.
+- 일반 작업 시작 시 원격을 fetch하고 최신 `origin/develop`에서 `feat/<ID>-...`, `fix/<ID>-...`, `docs/<ID>-...` 작업 브랜치를 만든다. main/develop에 직접 작업하거나 push하지 않는다. 별도 worktree와 변경 소유권 규칙은 유지한다.
+- 일반 작업 PR은 `작업 브랜치 → develop`이다. PR 작성·검토 시 base, 실제 diff, 선행 PR, 관련 CI를 확인한다. 선행 변경은 develop에 반영됐는지 확인하고 진행한다.
+- `develop → main` 통합 PR은 사용자가 반영 시점·범위를 결정할 때 준비한다. main에 대한 예외 작업도 사용자 명시 지시가 필요하다. 모든 PR의 승인·거절·병합·닫기와 auto-merge 결정·실행은 사용자 담당이다.
+- 카드의 branch는 실제 작업 브랜치를 기록하고, handoff에는 대상 base 및 기준 SHA를 남긴다(일반 작업은 develop, 핫픽스는 아래 규칙). 과거 스냅샷의 main 기준은 당시 기록으로 보존한다.
+- Claude/Codex는 재개 전 작업 기준 브랜치(일반 develop, 핫픽스 main)의 AGENTS.md·TASKS.md와 담당 카드를 다시 읽는다. 다른 실행 세션에 규칙이 자동 전달됐다고 가정하지 않는다.
+- 클라우드 세션이 배정하는 `claude/*` 세션 브랜치는 쓰지 않고 위 규칙으로 작업 브랜치를 만든다. Claude Code는 `.claude/settings.json` hook(`scripts/branch-guard.mjs`)이 이를 검사한다. hook은 셸을 완전히 해석하지 않는 안전장치이며 GitHub branch protection을 대신하지 않는다.
+- CI는 모든 PR과 main/develop push에 실행한다. 이 문서 규칙은 GitHub branch protection을 설정했다는 뜻이 아니다.
+
+## 배포 버전 결함 수정(hotfix) — 2026-11-26 사용자 결정
+
+- 대상은 main에 반영되어 배포된 버전의 결함 중 다음 정기 통합(develop → main)까지 기다리기 어려운 것이다. 기능 추가·리팩터링은 일반 작업으로 관리한다.
+- 작업 ID는 하이픈 없는 `HF<숫자3자리>`(예 `HF001`)다. `tasks/HF001.json`은 일반 카드와 같은 10개 필드를 쓴다. 기존 완료 카드는 보존하고, 실제 선행 작업이면 dependsOn에 원래 ID를 기록한다.
+- 사용자가 핫픽스 처리를 명시한 경우에만 최신 `origin/main`에서 `hotfix/HF001-pack-reclaim-recovery`처럼 브랜치를 만든다. handoff에 기준 main SHA·결함 배포 버전·핫픽스 사유를 남긴다. 일반 H-·T 작업은 최신 origin/develop 기준을 유지한다.
+- 패치 버전을 올리고 프로젝트의 버전 파일·잠금 파일·릴리스 문서을 같은 브랜치에서 갱신한다(예 0.4.0 → 0.4.1). lockfile은 패키지 도구로 갱신한다. develop 반영 시 이미 준비 중인 더 높은 버전을 낮추지 않고 릴리스 문서를 현재 개발 상태에 맞춘다.
+- 같은 hotfix 브랜치로 main 대상 PR과 develop 대상 PR을 열고 서로의 링크를 기록한다. 각 base의 실제 diff와 CI를 확인하며, 두 PR 본문과 카드 handoff에 “main·develop 모두 병합 필요”를 적는다.
+- develop과 충돌하면 최신 origin/develop에서 같은 HF ID의 별도 통합 브랜치(`hotfix/HF001-pack-reclaim-recovery-develop`)를 만들고 hotfix 브랜치를 merge하여 충돌을 해결한다. develop 대상 PR은 통합 브랜치의 새 PR로 대체하고 이전·대체·main PR을 연결한다. 기존 PR 종료는 사용자가 한다. 원본 hotfix 브랜치에는 develop 변경을 합치지 않는다. 수정이 추가되면 통합 브랜치에도 merge하고 다시 검증한다.
+- 승인·거절·병합·닫기는 사용자가 한다. 두 대상에 수정이 반영되어 필요한 검증과 병합이 확인된 뒤에만 카드를 done으로 바꾼다. 충돌로 대체된 develop PR은 새 PR의 병합을 기준으로 한다. 양쪽 반영 전까지 원본 hotfix 브랜치를 유지하며 원격 브랜치 삭제도 사용자가 한다.
+- 카드 branch에는 원본 hotfix 브랜치를, handoff에는 통합 브랜치(있으면)·두 대상 PR·원본 수정 SHA를 기록한다. 병합 후 완료 기록은 최신 origin/develop 기준의 같은 HF ID 통합/기록 브랜치에서 후속 PR로 반영한다. 이는 main 기준 생성 규칙의 기록용 예외다.
+- 일반 PR과 같은 변경별 검사를 수행하고 각 대상의 CI를 확인한다. 배포본에서 재현된 결함은 수정 후 같은 조건의 결과를 evidence에 남긴다. 미실행 환경과 검증 한계를 명시한다.
+- 인계 스냅샷은 `docs/handoffs/YYYY-MM-DD-HF001-<agent>.md`에 남긴다. 날짜·같은 날 후속 번호 규칙은 일반 작업과 같다.
+- hook은 브랜치 이름·push 대상을 검사한다. 사용자 지시와 실제 분기 기준은 카드·PR에서 확인한다. 세션 시작 시 main·develop을 갱신하고, fetch 실패 시 기존 SHA를 최신으로 표시하지 않는다.
+
+## 진행 순서
+
+1. 요청을 작업 ID로 등록하고 [JSON 작업 템플릿](../templates/TASK.json)을 `tasks/<TASK-ID>.json`으로 복사한다. [작업 카드 규칙](TASKS.md)을 따른다. 상태를 추적하는 작업은 JSON 카드를 만든다. Todo에 상태를 새로 적지 않는다.
+2. 범위·비범위·완료 조건·담당·변경 경로·기준 커밋·의존 작업을 기록한다. 요구사항 미정은 blocked 사유로 드러낸다.
+3. 필요한 최소 변경을 구현한다. 계약 변경은 계약 및 호출부·테스트를 함께 갱신한다.
+4. 변경 범위에 맞는 검증을 수행하고 [리뷰 템플릿](../templates/REVIEW.md)에 근거를 기록한다.
+5. Codex는 결함·후속 작업을 해당 task에 기록한다. 계획·우선순위가 바뀌는 경우에만 Todo를 수정한다. 허용된 보완은 별도 커밋 또는 작업으로 수행한다.
+6. PR을 만들면 [PR 목록](../reviews/INDEX.md)에 PR·task·검토 자료의 링크와 변경 주제를 등록한다. 검증·위험·권고는 head를 명시한 개별 검토 기록에 남긴다. 인덱스에는 현재 상태·사용자 결정 열을 두지 않는다. GitHub 게시나 리뷰 전송은 사용자 요청 범위에서만 수행한다.
+7. 사용자가 결정할 수 있도록 정리하고 task JSON의 status를 `review`로 표시한다. 사용자 결정과 실제 근거를 확인한 뒤 해당 카드만 갱신한다. Todo·PR 목록·과거 리뷰의 상태를 맞추는 작업은 하지 않는다.
+8. 작업 종료·중단·담당 변경 시 스냅샷을 작성한다. 스냅샷은 구현 기록이며 새로운 규칙의 기준이 아니다. 규칙은 원본 문서에 반영한다.
+
+## 상태 (tasks JSON에서만 관리)
+
+`todo → in_progress → review → done`
+
+- `blocked`: 선행 결정/환경/작업이 막음. 원인과 해제 조건 필수.
+- `review`에서 수정이 필요하면 `in_progress`로 되돌린다.
+- `done`: 요구사항·검증·문서 완료. 저장소 PR 작업은 사용자 병합 확인도 필요하다. 저장소 없는 문서 전달 작업은 산출물 전달로 완료 가능하다.
+
+커밋은 작업 ID를 포함한 작은 논리 단위로 만든다. 사용자가 요청하지 않은 force push, 대규모 정리, 타인 변경 복구를 하지 않는다. GitHub 기본 브랜치는 `main`, 개발 통합 브랜치는 `develop`이다. 실제 생성·조회한 브랜치·커밋·PR만 기록한다.
