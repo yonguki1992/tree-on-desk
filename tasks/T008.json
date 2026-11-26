@@ -1,0 +1,27 @@
+{
+  "id": "T008",
+  "title": "배포 패키징과 양 OS 인수 검증",
+  "status": "todo",
+  "owner": "claude",
+  "branch": "",
+  "dependsOn": [
+    "T006",
+    "T007"
+  ],
+  "scope": [
+    "electron-builder 설정",
+    "package.json",
+    "lockfile",
+    "배포 리소스",
+    "docs/PROJECT.md",
+    "README.md",
+    "tasks/T008.json 및 해당 작업 인계 기록"
+  ],
+  "acceptance": [
+    "electron-builder로 Windows 포터블 실행 파일과 macOS용 실행 가능한 배포본을 만들고 산출물 형식과 재현 명령을 기록한다.",
+    "각 OS에서 패키지로 첫 실행 → 가이드 닫기 → 빈 공간 클릭·이동·잠금 → 두 메뉴 → 오꾸 적용·프리셋 공유 → 종료·복원을 검증한다.",
+    "OS·배율·패키지 형식·실행 결과를 구분한다. 실기 미확인 환경은 해당 검증을 열어 둔다."
+  ],
+  "evidence": [],
+  "handoff": "양쪽 기능 브랜치가 develop에 반영된 뒤 실제 배포본으로 점검한다."
+}

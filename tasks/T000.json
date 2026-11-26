@@ -1,0 +1,23 @@
+{
+  "id": "T000",
+  "title": "구현 계획과 Claude 인계",
+  "status": "review",
+  "owner": "codex",
+  "branch": "docs/T000-implementation-plan",
+  "dependsOn": [],
+  "scope": [
+    "docs/TODO.md",
+    "docs/widget-v1.1.md",
+    "docs/reviews/INDEX.md",
+    "docs/handoffs/",
+    "tasks/T000.json~T008.json"
+  ],
+  "acceptance": [
+    "기획서의 기능과 배포 검증이 담당·선행 조건·완료 기준이 있는 카드에 연결된다."
+  ],
+  "evidence": [
+    "기획서 원문 일치, Todo 상대 링크, 카드 필드·선행 참조·순환 검사 통과",
+    "Linux / Node v24.22.3 하네스 기록 검사 및 테스트 22개 통과"
+  ],
+  "handoff": "base=develop 4da7ef8. docs/handoffs/2026-11-27-T000-codex.md"
+}

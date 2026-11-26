@@ -1,0 +1,24 @@
+{
+  "id": "T003",
+  "title": "공용 트리 캔버스와 테마 에셋",
+  "status": "todo",
+  "owner": "claude",
+  "branch": "",
+  "dependsOn": [
+    "T002"
+  ],
+  "scope": [
+    "src/shared/ornaments.ts",
+    "src/renderer/src/assets/",
+    "src/renderer/src/components/",
+    "src/renderer/src/pages/WidgetPage.tsx",
+    "tasks/T003.json 및 해당 작업 인계 기록"
+  ],
+  "acceptance": [
+    "트리·전구와 팔레트의 각 오너먼트를 두 테마에서 렌더링한다. 공통 ID마다 픽셀 PNG와 벡터 SVG가 대응한다.",
+    "TreeCanvas가 같은 트리 기준 사각형으로 0~1 좌표를 해석한다. sm/md/lg 및 테마 전환 전후 같은 배치의 상대 위치를 비교한다.",
+    "LightLayer에서 on은 계속 점등, blinking은 깜빡임, off는 소등된다."
+  ],
+  "evidence": [],
+  "handoff": "같은 배치 샘플을 두 테마와 세 크기에 렌더링해 비교한다."
+}
